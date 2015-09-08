@@ -1,2 +1,2 @@
 # python
-python tests
+Python scripts regarding data collection and display
