@@ -67,8 +67,11 @@ class WeatherParse :
         elif self.mSavedData[1] == self.mSavedData[2] :
             self.mToSend.mWeatherData = self.mSavedData[1].mWeatherData
         else :
-            print "No data agrees, skip"
+            print "No data agrees, skip"            
             self.mSend = False            
+
+            if ( mToSend.mWeatherData['tempF'] > 150 ) :
+                self.mSend = False            
             
     def processData(self, dataLine ):
         
@@ -110,8 +113,8 @@ class WeatherParse :
         try:
             #sendString = 'temp_'+str(channel)+',host=viatiempo temperature='+str(tempF)+',humidity='+str(humidity)+',battery='+str(battery)
             sendString = ( "temp_%s,host=rpi4 temperature=%s,humidity=%s,battery=0" %
-                           ( self.mToSend.mWeatherData['channel'], self.mToSend.mWeatherData['tempF'],
-                             self.mToSend.mWeatherData['humidity'] )
+                           ( self.mToSend.mWeatherData['sensor_id'], self.mToSend.mWeatherData['tempF'],
+                             self.mToSend.mWeatherData['humidity'])
                            )
             
             res = requests.post(url='http://192.168.2.32:8186/write', data=sendString)
